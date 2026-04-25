@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { AppstoreOutlined, LoginOutlined, MailOutlined, ProfileFilled, SettingOutlined } from '@ant-design/icons';
+import { LoginOutlined, ProfileFilled, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { Theater, ThermometerSnowflake } from 'lucide-react';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const MenuComponent: React.FC = () => {
-  const [current, setCurrent] = useState('mail');
+  const { pathname } = useLocation();
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const current = pathname.replace("/", "") || "task";
+
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
-    setCurrent(e.key);
   };
 
   const items: MenuItem[] = [

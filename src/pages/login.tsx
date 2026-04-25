@@ -1,11 +1,16 @@
+import AuthForm from "@/components/ui/auth-form";
 
 const LoginPage = () => {
   return (
-    <div>
-        {/* <p className="text-red-500">Login</p> */}
-        <p>Login</p>
-    </div>
-  )
-}
+    <AuthForm
+      mode="login"
+      title="Welcome Back"
+      subtitle="Sign in to manage tasks, deadlines, and team updates in one place."
+      submitLabel="Log In"
+      footerLinkLabel="Need an account? Create one"
+      footerLinkTo="/signup"
+    />
+  );
+};
 
-export default LoginPage
+export default LoginPage;

@@ -2,9 +2,11 @@ import type { ReactNode } from "react";
 import MenuComponent from "../menu-component";
 
 const PageLayout = ({children}:{children:ReactNode}) => {
-  return <div className="flex flex-col">
+  return <div className="flex min-h-screen flex-col">
         <MenuComponent/>
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
   </div>;
 };
 

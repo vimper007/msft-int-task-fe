@@ -160,3 +160,53 @@ export const mockTasks: Task[] = [
     assignee: mockUser,
   },
 ];
+
+
+
+
+
+// {
+//     "success": true,
+//     "message": "Tasks fetched",
+//     "data": [
+//         {
+//             "id": "cmoagmnzy0001w784r7zvcfh6",
+//             "title": "Prepare interview notes",
+//             "description": "Review React hooks and TypeScript utility types.",
+//             "status": "todo",
+//             "priority": "high",
+//             "dueDate": "2026-04-24T19:42:59.324Z",
+//             "createdAt": "2026-04-22T19:42:59.327Z",
+//             "updatedAt": "2026-04-22T19:42:59.327Z",
+//             "userId": "cmoagmnzo0000w784ftowp8y2"
+//         },
+//         {
+//             "id": "cmoagmnzy0002w784xph65wpb",
+//             "title": "Build portfolio task app",
+//             "description": "Implement authentication and task CRUD UI.",
+//             "status": "in_progress",
+//             "priority": "medium",
+//             "dueDate": "2026-04-26T19:42:59.324Z",
+//             "createdAt": "2026-04-22T19:42:59.327Z",
+//             "updatedAt": "2026-04-22T19:42:59.327Z",
+//             "userId": "cmoagmnzo0000w784ftowp8y2"
+//         },
+//         {
+//             "id": "cmoagmnzy0003w7841215s8lt",
+//             "title": "Practice behavioral questions",
+//             "description": "Prepare concise STAR responses for common prompts.",
+//             "status": "done",
+//             "priority": "low",
+//             "dueDate": null,
+//             "createdAt": "2026-04-22T19:42:59.327Z",
+//             "updatedAt": "2026-04-22T19:42:59.327Z",
+//             "userId": "cmoagmnzo0000w784ftowp8y2"
+//         }
+//     ],
+//     "meta": {
+//         "page": 1,
+//         "limit": 10,
+//         "total": 3,
+//         "totalPages": 1
+//     }
+// }

@@ -1,58 +1,131 @@
-import React from 'react';
-import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { useEffect } from "react";
+import type { TaskPriority, TaskStatus } from "@/mock";
+import { Button, Form, Input, Select, Space, Typography } from "antd";
 
-type FieldType = {
-  username?: string;
-  password?: string;
-  remember?: string;
+export type CreateTaskFormValues = {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  dueDate: string;
+  tags?: string;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
+type FormComponentProps = {
+  mode?: "create" | "edit";
+  initialValues?: Partial<CreateTaskFormValues>;
+  onSubmit: (values: CreateTaskFormValues) => void;
+  onCancel: () => void;
 };
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
+const defaultValues: Pick<CreateTaskFormValues, "status" | "priority"> = {
+  status: "todo",
+  priority: "medium",
 };
 
-const FormComponent: React.FC = () => (
-  <Form
-    name="basic"
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
-    style={{ maxWidth: 600 }}
-    initialValues={{ remember: true }}
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    autoComplete="off"
-  >
-    <Form.Item<FieldType>
-      label="Username"
-      name="username"
-      rules={[{ required: true, message: 'Please input your username!' }]}
+const FormComponent = ({
+  mode = "create",
+  initialValues,
+  onSubmit,
+  onCancel,
+}: FormComponentProps) => {
+  const [form] = Form.useForm<CreateTaskFormValues>();
+
+  useEffect(() => {
+    form.setFieldsValue({
+      ...defaultValues,
+      ...initialValues,
+    });
+  }, [form, initialValues]);
+
+  const handleFinish = (values: CreateTaskFormValues) => {
+    onSubmit(values);
+    form.resetFields();
+  };
+
+  const title = mode === "edit" ? "Edit Task" : "Create Task";
+  const submitLabel = mode === "edit" ? "Save Changes" : "Add Task";
+
+  return (
+    <Form<CreateTaskFormValues>
+      form={form}
+      name="create-task"
+      layout="vertical"
+      onFinish={handleFinish}
+      initialValues={defaultValues}
+      autoComplete="off"
     >
-      <Input />
-    </Form.Item>
+      <Typography.Title level={4} style={{ marginTop: 0 }}>
+        {title}
+      </Typography.Title>
 
-    <Form.Item<FieldType>
-      label="Password"
-      name="password"
-      rules={[{ required: true, message: 'Please input your password!' }]}
-    >
-      <Input.Password />
-    </Form.Item>
+      <Form.Item
+        label="Title"
+        name="title"
+        rules={[{ required: true, message: "Please add a task title." }]}
+      >
+        <Input placeholder="Task title" />
+      </Form.Item>
 
-    <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
-      <Checkbox>Remember me</Checkbox>
-    </Form.Item>
+      <Form.Item
+        label="Description"
+        name="description"
+        rules={[{ required: true, message: "Please add a description." }]}
+      >
+        <Input.TextArea placeholder="Task details" rows={4} />
+      </Form.Item>
 
-    <Form.Item label={null}>
-      <Button type="primary" htmlType="submit">
-        Submit
-      </Button>
-    </Form.Item>
-  </Form>
-);
+      <Form.Item
+        label="Status"
+        name="status"
+        rules={[{ required: true, message: "Select a status." }]}
+      >
+        <Select
+          options={[
+            { label: "To Do", value: "todo" },
+            { label: "In Progress", value: "in_progress" },
+            { label: "Done", value: "done" },
+          ]}
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Priority"
+        name="priority"
+        rules={[{ required: true, message: "Select a priority." }]}
+      >
+        <Select
+          options={[
+            { label: "Low", value: "low" },
+            { label: "Medium", value: "medium" },
+            { label: "High", value: "high" },
+          ]}
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Due Date"
+        name="dueDate"
+        rules={[{ required: true, message: "Choose a due date." }]}
+      >
+        <Input type="datetime-local" />
+      </Form.Item>
+
+      <Form.Item
+        label="Tags (comma separated)"
+        name="tags"
+      >
+        <Input placeholder="frontend, auth, api" />
+      </Form.Item>
+
+      <Space>
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button type="primary" htmlType="submit">
+          {submitLabel}
+        </Button>
+      </Space>
+    </Form>
+  );
+};
 
 export default FormComponent;

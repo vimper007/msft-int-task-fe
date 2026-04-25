@@ -1,5 +1,5 @@
-import { mockTasks, type Task } from "@/mock";
-import { Flex, Space, Table, Tag } from "antd";
+import type { Task } from "@/mock";
+import { Button, Flex, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 
 const columns: TableProps<Task>["columns"] = [
@@ -66,23 +66,41 @@ const columns: TableProps<Task>["columns"] = [
   },
   {
     title: "Assignee",
-    dataIndex: "assignee",
     key: "assignee",
+    render: (_, { assignee }) => assignee.name,
   },
   {
     title: "Action",
     key: "action",
-    render: (_, record) => (
-      <Space size="medium">
-        {/* <a>Invite {record.name}</a> */}
-        <a>Delete</a>
-      </Space>
-    ),
   },
 ];
 
-const TaskTable: React.FC = () => (
-  <Table<Task> columns={columns} dataSource={mockTasks} />
-);
+type TaskTableProps = {
+  tasks: Task[];
+  onEditTask: (task: Task) => void;
+  onDeleteTask: (task: Task) => void;
+};
+
+const TaskTable: React.FC<TaskTableProps> = ({ tasks, onEditTask, onDeleteTask }) => {
+  const columnsWithActions: TableProps<Task>["columns"] = columns.map((column) => {
+    if (column.key !== "action") return column;
+
+    return {
+      ...column,
+      render: (_, record) => (
+        <Space size="middle">
+          <Button type="link" size="small" onClick={() => onEditTask(record)}>
+            Edit
+          </Button>
+          <Button danger type="link" size="small" onClick={() => onDeleteTask(record)}>
+            Delete
+          </Button>
+        </Space>
+      ),
+    };
+  });
+
+  return <Table<Task> rowKey="id" columns={columnsWithActions} dataSource={tasks} />;
+};
 
 export default TaskTable;
