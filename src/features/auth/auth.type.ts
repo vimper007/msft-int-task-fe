@@ -12,3 +12,22 @@ export type AuthState = {
   createdAt: string | null;
   token: string | null;
 }
+
+export type AuthUser = {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+};
+
+export type AuthResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    user: AuthUser;
+  };
+};
+
+export type LoginResponse = AuthResponse;
+export type SignupResponse = AuthResponse;

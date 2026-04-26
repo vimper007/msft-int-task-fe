@@ -69,3 +69,17 @@ If yes, keep it.
 If not, cut it.
 
 The very first thing I’d have you do next is write the feature + component + state map on one page. After that, build the Tasks screen with fake data.
+
+
+
+
+login flow --->
+user enters login detials ----> use normal fetch ----> set the resposne to store --> navigate to task
+
+
+sign up flow ---> 
+user enters sign up --> use axios sign up --------> dispatch auth details to store---- > set to localstorage --->navigate to task
+
+
+Add Task --->
+tutorial on how rtkq works, for post

@@ -1,19 +1,15 @@
-import { store, type AppDispatch, type RootState } from "@/app/store";
+import { type AppDispatch } from "@/app/store";
 import AuthForm, { type SignupFormValues } from "@/components/ui/auth-form";
 import { signup } from "@/services/http/auth.api";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/authSlice";
 import { AxiosError } from "axios";
-import type { AuthState } from "@/features/auth/auth.type";
-import { useEffect } from "react";
+import { authStorage } from "@/app/helper/auth-storage";
+import { useNavigate } from "react-router";
 
 const SignUp = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const auth = useSelector((state: RootState) => state.auth);
-
-  useEffect(() => {
-    console.log("AUTH FROM REDUX:", auth);
-  }, [auth])
+  const navigate = useNavigate()
 
   const handleSignup = async (values: SignupFormValues) => {
     try {
@@ -32,14 +28,9 @@ const SignUp = () => {
         createdAt: user.createdAt,
         token: responseData.token,
       };
-      const action = setUser(payload);
-      console.log("ACTION:", action);
-
       dispatch(setUser(payload))
-      setAuthToLocalStorage(payload)
-
-      console.log("STORE AFTER DISPATCH:", store.getState());
-
+      authStorage.set(payload)
+      navigate('/task')
 
     } catch (error) {
       if (error instanceof AxiosError)
@@ -47,10 +38,6 @@ const SignUp = () => {
       else console.error('Try again later')
     }
   };
-
-  const setAuthToLocalStorage = (payload: AuthState) => {
-    localStorage.setItem("auth", JSON.stringify(payload))
-  }
 
   return (
     <AuthForm
