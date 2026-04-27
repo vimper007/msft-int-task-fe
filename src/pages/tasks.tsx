@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CreateTaskFormValues } from "@/components/ui/form-component";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal";
 import FormComponent from "@/components/ui/form-component";
@@ -6,6 +6,7 @@ import ModalComponent from "@/components/ui/modal";
 import TaskTable from "@/components/ui/task-table";
 import { mockTasks, mockUser, type Task } from "@/mock";
 import { Button } from "antd";
+import { useGetTasksQuery } from "@/services/taskApi";
 
 const toDateTimeInputValue = (isoDate: string) => {
   const date = new Date(isoDate);
@@ -20,6 +21,11 @@ const Tasks = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<Task | null>(null);
+  const {isLoading, isSuccess, data:taskData} = useGetTasksQuery()
+  useEffect(() => {
+   console.log("taskData", taskData)
+  }, [taskData])
+  
 
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
@@ -100,7 +106,7 @@ const Tasks = () => {
       <Button type="primary" onClick={openCreateModal}>
         Create Task+
       </Button>
-      <TaskTable tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
+      <TaskTable tasks={taskData ?? []} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
       <ModalComponent visible={isCreateModalOpen} onClose={closeCreateModal}>
         <FormComponent mode="create" onSubmit={handleCreateTask} onCancel={closeCreateModal} />
       </ModalComponent>

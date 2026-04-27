@@ -82,4 +82,6 @@ user enters sign up --> use axios sign up --------> dispatch auth details to sto
 
 
 Add Task --->
-tutorial on how rtkq works, for post
+tutorial on how rtkq works, for POST tasks,
+create taskapi - first learn it
+then use the auto created hooks to create aa task
