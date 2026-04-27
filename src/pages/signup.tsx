@@ -1,10 +1,10 @@
 import { type AppDispatch } from "@/app/store";
 import AuthForm, { type SignupFormValues } from "@/components/ui/auth-form";
-import { signup } from "@/services/http/auth.api";
+import { signup } from "@/services/axios/auth.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/authSlice";
 import { AxiosError } from "axios";
-import { authStorage } from "@/app/helper/auth-storage";
+import { authStorage } from "@/helper/auth-storage";
 import { useNavigate } from "react-router";
 
 const SignUp = () => {
@@ -22,11 +22,13 @@ const SignUp = () => {
       const user = responseData.user;
 
       const payload = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: user.createdAt,
         token: responseData.token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          createdAt: user.createdAt,
+        }
       };
       dispatch(setUser(payload))
       authStorage.set(payload)

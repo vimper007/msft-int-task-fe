@@ -6,7 +6,7 @@ import ModalComponent from "@/components/ui/modal";
 import TaskTable from "@/components/ui/task-table";
 import { mockTasks, mockUser, type Task } from "@/mock";
 import { Button } from "antd";
-import { useGetTasksQuery } from "@/services/taskApi";
+import { useGetTasksQuery } from "@/features/auth/tasks/tasks.api.ts";
 
 const toDateTimeInputValue = (isoDate: string) => {
   const date = new Date(isoDate);
@@ -106,7 +106,7 @@ const Tasks = () => {
       <Button type="primary" onClick={openCreateModal}>
         Create Task+
       </Button>
-      <TaskTable tasks={taskData ?? []} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
+      <TaskTable tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
       <ModalComponent visible={isCreateModalOpen} onClose={closeCreateModal}>
         <FormComponent mode="create" onSubmit={handleCreateTask} onCancel={closeCreateModal} />
       </ModalComponent>

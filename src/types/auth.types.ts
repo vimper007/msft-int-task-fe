@@ -1,16 +1,12 @@
-export type SignupPayload = {
+export type SignupRequest = {
   name: string;
   email: string;
   password: string;
 }
 
-
-export type AuthState = {
-  id: string | null;
-  name: string | null;
-  email: string | null;
-  createdAt: string | null;
-  token: string | null;
+export type AuthSession = {
+  token: string;
+  user: AuthUser
 }
 
 export type AuthUser = {
@@ -23,10 +19,7 @@ export type AuthUser = {
 export type AuthResponse = {
   success: boolean;
   message: string;
-  data: {
-    token: string;
-    user: AuthUser;
-  };
+  data: AuthSession;
 };
 
 export type LoginResponse = AuthResponse;

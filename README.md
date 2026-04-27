@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# Task Manager Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React, TypeScript, Vite, Redux Toolkit, RTK Query, Axios, and React Router practice app for auth-protected task management.
 
-Currently, two official plugins are available:
+## Current Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Auth API calls live in `src/services/axios/auth.api.ts`.
+- Shared auth contracts live in `src/types/auth.types.ts`.
+- Auth session persistence lives in `src/helper/auth-storage.ts`.
+- Redux auth state lives in `src/features/auth/authSlice.ts`.
+- Task server state is handled with RTK Query through `useGetTasksQuery`.
+- The task API should settle under `src/features/tasks/tasks.api.ts` as the project grows.
 
-## React Compiler
+## Auth Contract
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The current shared auth types are:
 
-## Expanding the ESLint configuration
+```ts
+export type SignupRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+export type AuthUser = {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+};
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+export type AuthSession = {
+  token: string;
+  user: AuthUser;
+};
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+export type AuthResponse = {
+  success: boolean;
+  message: string;
+  data: AuthSession;
+};
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+`AuthUser` is only identity/profile data. The token belongs to `AuthSession`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
+npm run build
 ```
+
+The backend is expected at `http://localhost:4000`.

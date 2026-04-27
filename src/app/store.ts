@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
-import { taskapi } from "@/services/taskApi";
+import { taskapi } from "@/features/auth/tasks/tasks.api.ts";
 export const store = configureStore({
   reducer: {
     auth: authReducer,

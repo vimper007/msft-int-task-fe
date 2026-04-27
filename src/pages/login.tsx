@@ -1,9 +1,9 @@
-import { authStorage } from "@/app/helper/auth-storage";
+import { authStorage } from "@/helper/auth-storage";
 import type { AppDispatch } from "@/app/store";
 import AuthForm, { type LoginFormValues } from "@/components/ui/auth-form";
-import type { AuthState } from "@/features/auth/auth.type";
 import { setUser } from "@/features/auth/authSlice";
-import { login } from "@/services/http/auth.api";
+import { login } from "@/services/axios/auth.api";
+import type { AuthSession } from "@/types/auth.types";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -15,13 +15,15 @@ const LoginPage = () => {
     try {
       const res = await login(payload)
       const user = res.data.user
-      const dispatchPayload = {
-        id: user.id,
-        name: user.name,
-        createdAt: user.createdAt,
-        email: user.email,
-        token: res.data.token
-      } as AuthState
+      const dispatchPayload: AuthSession = {
+        token: res.data.token,
+        user: {
+          id: user.id,
+          name: user.name,
+          createdAt: user.createdAt,
+          email: user.email,
+        }
+      }
       dispatch(setUser(dispatchPayload))
       authStorage.set(dispatchPayload)
       navigate('/task')

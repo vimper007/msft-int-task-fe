@@ -1,4 +1,4 @@
-import type { AuthState } from "@/features/auth/auth.type";
+import type { AuthSession } from "@/types/auth.types";
 
 export const authStorage = {
   get: () => {
@@ -6,13 +6,13 @@ export const authStorage = {
     if (!localAuth) return null;
 
     try {
-      return JSON.parse(localAuth) as AuthState;
+      return JSON.parse(localAuth);
     } catch (error) {
       localStorage.removeItem("auth");
       return null;
     }
   },
-  set: (payload: AuthState) => {
+  set: (payload: AuthSession) => {
     localStorage.setItem("auth", JSON.stringify(payload));
   },
   remove: () => {

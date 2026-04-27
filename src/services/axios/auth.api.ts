@@ -1,18 +1,18 @@
-import type { AuthResponse, SignupPayload } from "@/features/auth/auth.type";
 import { http } from "./client";
 import type { LoginFormValues } from "@/components/ui/auth-form";
+import type { AuthResponse, SignupRequest } from "@/types/auth.types";
 const BASE_URL = "http://localhost:4000";
 
-export async function signup(payload: SignupPayload) {
-  const res = await http.post("/api/auth/signup", payload);
+export async function signup(request: SignupRequest) {
+  const res = await http.post("/api/auth/signup", request);
   return res;
 }
 
-export async function login(payload: LoginFormValues): Promise<AuthResponse> {
+export async function login(request: LoginFormValues): Promise<AuthResponse> {
   const res = await fetch(`${BASE_URL}/api/auth/login`, {
     method: "POST",
     headers:{"Content-Type":"application/json"},
-    body: JSON.stringify(payload),
+    body: JSON.stringify(request),
     
   })
   const data = await res.json()
