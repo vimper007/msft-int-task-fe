@@ -1,6 +1,6 @@
 import { type AppDispatch } from "@/app/store";
 import AuthForm, { type SignupFormValues } from "@/components/ui/auth-form";
-import { signup } from "@/services/axios/auth.api";
+import { signup } from "@/services/axios/auth/auth.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/authSlice";
 import { AxiosError } from "axios";

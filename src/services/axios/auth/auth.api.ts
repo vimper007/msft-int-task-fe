@@ -1,6 +1,6 @@
-import { http } from "./client";
+import { http } from "../client";
 import type { LoginFormValues } from "@/components/ui/auth-form";
-import type { AuthResponse, SignupRequest } from "@/types/auth.types";
+import type { AuthResponse, SignupRequest } from "@/services/axios/auth/auth.types";
 const BASE_URL = "http://localhost:4000";
 
 export async function signup(request: SignupRequest) {

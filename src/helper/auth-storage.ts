@@ -1,4 +1,4 @@
-import type { AuthSession } from "@/types/auth.types";
+import type { AuthSession } from "@/services/axios/auth/auth.types";
 
 export const authStorage = {
   get: () => {

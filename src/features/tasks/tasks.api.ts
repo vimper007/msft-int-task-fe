@@ -1,6 +1,7 @@
 import type { RootState } from "@/app/store";
-import type { Task } from "@/mock";
+import type { ApiResponse } from "@/types/api.types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { Task } from "./tasks.types";
 export const taskapi = createApi({
   reducerPath: "taskapi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000", 
@@ -9,10 +10,11 @@ export const taskapi = createApi({
       if(token) headers.set('Authorization',`Bearer ${token}`)
   } }),
   endpoints: (builder) => ({
-    getTasks: builder.query<Task[], void>({
+    getTasks: builder.query<ApiResponse<Task[]>, void>({
       query: () => ({
         url: "/api/tasks",
       }),
+      transformResponse: (response: ApiResponse<Task[]>) => response
     }),
   }),
 });

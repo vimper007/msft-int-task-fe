@@ -2,8 +2,8 @@ import { authStorage } from "@/helper/auth-storage";
 import type { AppDispatch } from "@/app/store";
 import AuthForm, { type LoginFormValues } from "@/components/ui/auth-form";
 import { setUser } from "@/features/auth/authSlice";
-import { login } from "@/services/axios/auth.api";
-import type { AuthSession } from "@/types/auth.types";
+import { login } from "@/services/axios/auth/auth.api";
+import type { AuthSession } from "@/services/axios/auth/auth.types";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
