@@ -9,7 +9,7 @@ export type TaskAssignee = AuthUser & { avatarUrl?: string };
 export type Task = {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   status: TaskStatus;
   priority: TaskPriority;
   dueDate: string;
