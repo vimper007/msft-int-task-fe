@@ -106,7 +106,7 @@ const Tasks = () => {
       <Button type="primary" onClick={openCreateModal}>
         Create Task+
       </Button>
-      <TaskTable tasks={taskData} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
+      <TaskTable tasks={taskData ?? []}  onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
       <ModalComponent visible={isCreateModalOpen} onClose={closeCreateModal}>
         <FormComponent mode="create" onSubmit={handleCreateTask} onCancel={closeCreateModal} />
       </ModalComponent>
@@ -121,7 +121,7 @@ const Tasks = () => {
                   status: editingTask.status,
                   priority: editingTask.priority,
                   dueDate: toDateTimeInputValue(editingTask.dueDate),
-                  tags: editingTask.tags.join(", "),
+                  tags: editingTask.tags?.join(", "),
                 }
               : undefined
           }

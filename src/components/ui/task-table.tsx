@@ -50,7 +50,7 @@ const columns: TableProps<Task>["columns"] = [
     dataIndex: "tags",
     render: (_, { tags }) => (
       <Flex gap="small" align="center" wrap>
-        {tags.map((tag) => {
+        {tags?.map((tag) => {
           let color = tag.length > 5 ? "geekblue" : "green";
           if (tag === "kawaii") {
             color = "volcano";
@@ -67,7 +67,7 @@ const columns: TableProps<Task>["columns"] = [
   {
     title: "Assignee",
     key: "assignee",
-    render: (_, { assignee }) => assignee.name,
+    render: (_, { assignee }) => assignee?.name,
   },
   {
     title: "Action",

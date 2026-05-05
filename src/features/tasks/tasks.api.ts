@@ -10,11 +10,11 @@ export const taskapi = createApi({
       if(token) headers.set('Authorization',`Bearer ${token}`)
   } }),
   endpoints: (builder) => ({
-    getTasks: builder.query<ApiResponse<Task[]>, void>({
+    getTasks: builder.query<Task[], void>({
       query: () => ({
         url: "/api/tasks",
       }),
-      transformResponse: (response: ApiResponse<Task[]>) => response
+      transformResponse: (response: ApiResponse<Task[]>) => response.data
     }),
   }),
 });
