@@ -22,10 +22,6 @@ const Tasks = () => {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<Task | null>(null);
   const {isLoading, isSuccess, data:taskData} = useGetTasksQuery()
-  useEffect(() => {
-   console.log("taskData", taskData)
-  }, [taskData])
-  
 
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);

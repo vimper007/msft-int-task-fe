@@ -12,7 +12,7 @@ export type Task = {
   description: string | null;
   status: TaskStatus;
   priority: TaskPriority;
-  dueDate: string;
+  dueDate: string | null;
   createdAt: string;
   updatedAt: string;
   tags: string[];

@@ -33,10 +33,9 @@ export const taskapi = createApi({
         const userResults = await Promise.all(
           userIds.map((userId) => baseQuery(`/api/users/${userId}`)),
         );
-        const userResponse = userResults[0]?.data as ApiResponse<
-          UserApiResponse[]
-        >;
-        console.log("userResponse...", userResponse);
+        const userResponse = userResults;
+        console.log("userResults...", userResults);
+        console.log('userResults2.....', ...userResults.map(user=>user.data.data.id))
 
         const aggregatedTask: Task[] = taskResposne.data.map(
           (task: TaskApiResponse) => ({
@@ -48,15 +47,17 @@ export const taskapi = createApi({
             dueDate: task.dueDate,
             createdAt: task.createdAt,
             updatedAt: task.updatedAt,
-            tags: [''],
+            tags: [],
             assignee: {
-              id: userResponse?.data?.find(user => user?.id === task?.userId)?.id,
-              name: userResponse?.data?.find(user => user?.id === task?.userId)?.name,
-              email: userResponse?.data?.find(user => user?.id === task?.userId)?.email,
-              createdAt: userResponse?.data?.find(user => user?.id === task?.userId)?.createdAt,
+              id: userResults.find(user=>user.data.data.id === task.userId)?.data.data.id,
+              name: userResults.find(user=>user.data.data.id === task.userId)?.data.data.name,
+              email: userResults.find(user=>user.data.data.id === task.userId).data.data.email,
+              createdAt: userResults.find(user=>user.data.data.id === task.userId).data.data.createdAt,
             }
           }),
         );
+        console.log("aggregatedTask",aggregatedTask)
+        return {data: aggregatedTask}
       },
     }),
   }),
