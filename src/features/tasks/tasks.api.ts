@@ -30,12 +30,15 @@ export const taskapi = createApi({
           ...new Set(taskResposne.data.map((task) => task.userId)),
         ];
 
-        const userResults = await Promise.all(
+        const userResults = (await Promise.all(
           userIds.map((userId) => baseQuery(`/api/users/${userId}`)),
-        );
+        )) as { data: ApiResponse<UserApiResponse> }[];
         const userResponse = userResults;
         console.log("userResults...", userResults);
-        console.log('userResults2.....', ...userResults.map(user=>user.data.data.id))
+        console.log(
+          "userResults2.....",
+          ...userResults.map((user) => user.data.data.id),
+        );
 
         const aggregatedTask: Task[] = taskResposne.data.map(
           (task: TaskApiResponse) => ({
@@ -48,52 +51,27 @@ export const taskapi = createApi({
             createdAt: task.createdAt,
             updatedAt: task.updatedAt,
             tags: [],
-            assignee: {
-              id: userResults.find(user=>user.data.data.id === task.userId)?.data.data.id,
-              name: userResults.find(user=>user.data.data.id === task.userId)?.data.data.name,
-              email: userResults.find(user=>user.data.data.id === task.userId).data.data.email,
-              createdAt: userResults.find(user=>user.data.data.id === task.userId).data.data.createdAt,
-            }
+            assignee: (() => {
+              const user = userResults.find(
+                (u) => u.data.data.id === task.userId,
+              );
+              return {
+                id: user?.data.data.id ?? "",
+                name: user?.data.data.name ?? "",
+                email: user?.data.data.email ?? "",
+                createdAt: user?.data.data.createdAt ?? "",
+              };
+            })(),
           }),
         );
-        console.log("aggregatedTask",aggregatedTask)
-        return {data: aggregatedTask}
+        console.log("aggregatedTask", aggregatedTask);
+        return { data: aggregatedTask };
       },
     }),
   }),
 });
 
 export const { useGetTasksQuery } = taskapi;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // async queryFn(_arg, _api, _opts, baseQuery) {
 //   // Step 1 — first fetch
