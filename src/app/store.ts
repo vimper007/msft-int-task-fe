@@ -6,8 +6,7 @@ export const store = configureStore({
     auth: authReducer,
     [taskapi.reducerPath]: taskapi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(taskapi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(taskapi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

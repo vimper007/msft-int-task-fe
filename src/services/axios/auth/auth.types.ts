@@ -2,12 +2,12 @@ export type SignupRequest = {
   name: string;
   email: string;
   password: string;
-}
+};
 
 export type AuthSession = {
   token: string;
-  user: AuthUser
-}
+  user: AuthUser;
+};
 
 export type AuthUser = {
   id: string;

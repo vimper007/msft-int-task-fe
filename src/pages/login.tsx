@@ -8,13 +8,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 const LoginPage = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleLogin = async (payload: LoginFormValues) => {
     try {
-      const res = await login(payload)
-      const user = res.data.user
+      const res = await login(payload);
+      const user = res.data.user;
       const dispatchPayload: AuthSession = {
         token: res.data.token,
         user: {
@@ -22,21 +22,19 @@ const LoginPage = () => {
           name: user.name,
           createdAt: user.createdAt,
           email: user.email,
-        }
-      }
-      dispatch(setUser(dispatchPayload))
-      authStorage.set(dispatchPayload)
-      navigate('/task')
+        },
+      };
+      dispatch(setUser(dispatchPayload));
+      authStorage.set(dispatchPayload);
+      navigate("/task");
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message)
-      }
-      else {
-        console.log("Unknow Error")
+        console.log(error.message);
+      } else {
+        console.log("Unknow Error");
       }
     }
-  }
-
+  };
 
   return (
     <AuthForm

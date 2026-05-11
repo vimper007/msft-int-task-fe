@@ -45,14 +45,7 @@ const passwordRules = [
 ];
 
 const AuthForm = (props: AuthFormProps) => {
-  const {
-    mode,
-    title,
-    subtitle,
-    submitLabel,
-    footerLinkLabel,
-    footerLinkTo,
-  } = props;
+  const { mode, title, subtitle, submitLabel, footerLinkLabel, footerLinkTo } = props;
   const [form] = Form.useForm<AuthFormValues>();
   const isSignup = mode === "signup";
 
@@ -73,8 +66,7 @@ const AuthForm = (props: AuthFormProps) => {
         styles={{
           body: {
             padding: 32,
-            background:
-              "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(17, 24, 39, 0.92))",
+            background: "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(17, 24, 39, 0.92))",
           },
         }}
       >
@@ -100,11 +92,7 @@ const AuthForm = (props: AuthFormProps) => {
               name="name"
               rules={[{ required: true, message: "Please enter your full name." }]}
             >
-              <Input
-                size="large"
-                placeholder="Jane Doe"
-                prefix={<UserOutlined />}
-              />
+              <Input size="large" placeholder="Jane Doe" prefix={<UserOutlined />} />
             </Form.Item>
           ) : null}
 
@@ -113,11 +101,7 @@ const AuthForm = (props: AuthFormProps) => {
             name="email"
             rules={emailRules}
           >
-            <Input
-              size="large"
-              placeholder="you@example.com"
-              prefix={<MailOutlined />}
-            />
+            <Input size="large" placeholder="you@example.com" prefix={<MailOutlined />} />
           </Form.Item>
 
           <Form.Item
@@ -162,21 +146,13 @@ const AuthForm = (props: AuthFormProps) => {
           ) : null}
 
           <Form.Item style={{ marginBottom: 12 }}>
-            <Button
-              block
-              type="primary"
-              htmlType="submit"
-              size="large"
-              className="mt-2"
-            >
+            <Button block type="primary" htmlType="submit" size="large" className="mt-2">
               {submitLabel}
             </Button>
           </Form.Item>
         </Form>
 
-        <Typography.Paragraph
-          style={{ margin: 0, textAlign: "center", color: "#94a3b8" }}
-        >
+        <Typography.Paragraph style={{ margin: 0, textAlign: "center", color: "#94a3b8" }}>
           <Link className="font-medium text-sky-400 hover:text-sky-300" to={footerLinkTo}>
             {footerLinkLabel}
           </Link>

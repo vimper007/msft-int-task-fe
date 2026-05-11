@@ -6,9 +6,18 @@ export type TaskPriority = "low" | "medium" | "high";
 
 export type TaskAssignee = AuthUser & { avatarUrl?: string };
 
-export type TaskSortBy =  "id" | "title" | "description" | "status" | "priority" | "dueDate" | "createdAt" | "updatedAt" | "userId"
+export type TaskSortBy =
+  | "id"
+  | "title"
+  | "description"
+  | "status"
+  | "priority"
+  | "dueDate"
+  | "createdAt"
+  | "updatedAt"
+  | "userId";
 
-export type TaskOrderBy = "desc" | "asc"
+export type TaskOrderBy = "desc" | "asc";
 
 export type Task = {
   id: string;
@@ -26,9 +35,9 @@ export type Task = {
 export type GetTasksParams = {
   status?: TaskStatus;
   priority?: TaskPriority;
-  search?:string;
+  search?: string;
   sortBy?: TaskSortBy;
   order?: TaskOrderBy;
   page?: number;
   limit?: number;
-}
+};

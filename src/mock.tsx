@@ -71,8 +71,7 @@ export const mockTasks: Task[] = [
   {
     id: "task_4",
     title: "Add create task modal",
-    description:
-      "Build a reusable task form component for creating new tasks from a modal.",
+    description: "Build a reusable task form component for creating new tasks from a modal.",
     status: "todo",
     priority: "medium",
     dueDate: "2026-04-25T10:30:00.000Z",
@@ -97,8 +96,7 @@ export const mockTasks: Task[] = [
   {
     id: "task_6",
     title: "Add task status filter",
-    description:
-      "Allow users to filter tasks by todo, in progress, or done.",
+    description: "Allow users to filter tasks by todo, in progress, or done.",
     status: "todo",
     priority: "low",
     dueDate: "2026-04-26T11:00:00.000Z",
@@ -110,8 +108,7 @@ export const mockTasks: Task[] = [
   {
     id: "task_7",
     title: "Add search by task title",
-    description:
-      "Implement a search input that filters tasks by matching title text.",
+    description: "Implement a search input that filters tasks by matching title text.",
     status: "done",
     priority: "medium",
     dueDate: "2026-04-23T16:00:00.000Z",
@@ -123,8 +120,7 @@ export const mockTasks: Task[] = [
   {
     id: "task_8",
     title: "Add sort dropdown",
-    description:
-      "Let users sort tasks by due date, created date, or priority.",
+    description: "Let users sort tasks by due date, created date, or priority.",
     status: "todo",
     priority: "low",
     dueDate: "2026-04-26T15:00:00.000Z",
@@ -136,8 +132,7 @@ export const mockTasks: Task[] = [
   {
     id: "task_9",
     title: "Show loading and empty states",
-    description:
-      "Create reusable empty and loading UI for task list fetch states.",
+    description: "Create reusable empty and loading UI for task list fetch states.",
     status: "in_progress",
     priority: "medium",
     dueDate: "2026-04-24T17:00:00.000Z",
@@ -160,10 +155,6 @@ export const mockTasks: Task[] = [
     assignee: mockUser,
   },
 ];
-
-
-
-
 
 // {
 //     "success": true,

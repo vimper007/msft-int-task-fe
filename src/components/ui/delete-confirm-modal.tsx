@@ -10,12 +10,7 @@ type DeleteConfirmModalProps = {
   onConfirm: () => void;
 };
 
-const DeleteConfirmModal = ({
-  task,
-  visible,
-  onCancel,
-  onConfirm,
-}: DeleteConfirmModalProps) => {
+const DeleteConfirmModal = ({ task, visible, onCancel, onConfirm }: DeleteConfirmModalProps) => {
   useEffect(() => {
     if (!visible) return;
 

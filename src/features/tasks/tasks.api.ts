@@ -1,9 +1,5 @@
 import type { RootState } from "@/app/store";
-import type {
-  ApiResponse,
-  TaskApiResponse,
-  UserApiResponse,
-} from "@/types/api.types";
+import type { ApiResponse, TaskApiResponse, UserApiResponse } from "@/types/api.types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { GetTasksParams, Task } from "./tasks.types";
 export const taskapi = createApi({
@@ -29,51 +25,43 @@ export const taskapi = createApi({
         if (taskResults.error) return { error: taskResults.error };
 
         const taskResposne = taskResults.data as ApiResponse<TaskApiResponse[]>;
-        const userIds = [
-          ...new Set(taskResposne.data.map((task) => task.userId)),
-        ];
+        const userIds = [...new Set(taskResposne.data.map((task) => task.userId))];
 
-        const userResults = (await Promise.allSettled(
+        const userResults = await Promise.allSettled(
           userIds.map((userId) => baseQuery(`/api/users/${userId}`)),
-        ));
-        const resolvedUserResults = userResults.filter(result=>result.status === "fulfilled")
-        .map(result=>(result.value.data as ApiResponse<UserApiResponse>))
-        console.log("resolvedUserResults", ...resolvedUserResults)
+        );
+        const resolvedUserResults = userResults
+          .filter((result) => result.status === "fulfilled")
+          .map((result) => result.value.data as ApiResponse<UserApiResponse>);
+        console.log("resolvedUserResults", ...resolvedUserResults);
 
         console.log("userResults...", userResults);
 
-        const aggregatedTask: Task[] = taskResposne.data.map(
-          (task: TaskApiResponse) => ({
-            id: task.id,
-            title: task.title,
-            description: task.description ?? "",
-            status: task.status,
-            priority: task.priority,
-            dueDate: task.dueDate ?? "",
-            createdAt: task.createdAt,
-            updatedAt: task.updatedAt,
-            tags: [],
-            assignee: (() => {
-              const user = resolvedUserResults.find(
-                (u) => u.data.id === task.userId,
-              );
-              return {
-                id: user?.data.id ?? "",
-                name: user?.data.name ?? "",
-                email: user?.data.email ?? "",
-                createdAt: user?.data.createdAt ?? "",
-              };
-            })(),
-          }),
-        );
+        const aggregatedTask: Task[] = taskResposne.data.map((task: TaskApiResponse) => ({
+          id: task.id,
+          title: task.title,
+          description: task.description ?? "",
+          status: task.status,
+          priority: task.priority,
+          dueDate: task.dueDate ?? "",
+          createdAt: task.createdAt,
+          updatedAt: task.updatedAt,
+          tags: [],
+          assignee: (() => {
+            const user = resolvedUserResults.find((u) => u.data.id === task.userId);
+            return {
+              id: user?.data.id ?? "",
+              name: user?.data.name ?? "",
+              email: user?.data.email ?? "",
+              createdAt: user?.data.createdAt ?? "",
+            };
+          })(),
+        }));
         console.log("aggregatedTask", aggregatedTask);
         return { data: aggregatedTask };
       },
     }),
-    editTasks: builder.mutation<
-      ApiResponse<TaskApiResponse>,
-      { id: string; body: Partial<Task> }
-    >({
+    editTasks: builder.mutation<ApiResponse<TaskApiResponse>, { id: string; body: Partial<Task> }>({
       query: ({ id, body }) => ({
         url: `/api/tasks/${id}`,
         method: "PUT",

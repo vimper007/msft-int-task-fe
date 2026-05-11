@@ -11,19 +11,17 @@ export async function signup(request: SignupRequest) {
 export async function login(request: LoginFormValues): Promise<AuthResponse> {
   const res = await fetch(`${BASE_URL}/api/auth/login`, {
     method: "POST",
-    headers:{"Content-Type":"application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(request),
-    
-  })
-  const data = await res.json()
+  });
+  const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Login failed")
+    throw new Error(data.message || "Login failed");
   }
 
-  return data
+  return data;
 }
-
 
 // {
 //     "success": true,

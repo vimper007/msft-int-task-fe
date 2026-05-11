@@ -11,13 +11,13 @@ import { store } from "./app/store.ts";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-    <Provider store={store}>
-      <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
-        <PageLayout>
-          <AppRouter />
-        </PageLayout>
-      </ConfigProvider>
-    </Provider>
+      <Provider store={store}>
+        <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+          <PageLayout>
+            <AppRouter />
+          </PageLayout>
+        </ConfigProvider>
+      </Provider>
     </BrowserRouter>
   </StrictMode>,
 );

@@ -111,10 +111,7 @@ const FormComponent = ({
         <Input type="datetime-local" />
       </Form.Item>
 
-      <Form.Item
-        label="Tags (comma separated)"
-        name="tags"
-      >
+      <Form.Item label="Tags (comma separated)" name="tags">
         <Input placeholder="frontend, auth, api" />
       </Form.Item>
 

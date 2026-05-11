@@ -8,8 +8,8 @@ import { authStorage } from "@/helper/auth-storage";
 import { useNavigate } from "react-router";
 
 const SignUp = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleSignup = async (values: SignupFormValues) => {
     try {
@@ -28,16 +28,14 @@ const SignUp = () => {
           name: user.name,
           email: user.email,
           createdAt: user.createdAt,
-        }
+        },
       };
-      dispatch(setUser(payload))
-      authStorage.set(payload)
-      navigate('/task')
-
+      dispatch(setUser(payload));
+      authStorage.set(payload);
+      navigate("/task");
     } catch (error) {
-      if (error instanceof AxiosError)
-        console.error(error.message)
-      else console.error('Try again later')
+      if (error instanceof AxiosError) console.error(error.message);
+      else console.error("Try again later");
     }
   };
 
