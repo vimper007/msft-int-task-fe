@@ -50,9 +50,36 @@ Signup
 
 Task
 
-    Uses rtkq,
-    use transform response to shape the reposne type
-    use preparedHeaders to tokenize
-    We also set params. First include it as a type file and add the params: args parameter in basequery
+    overview
+        Uses rtkq,
+        use transform response to shape the reposne type
+        use preparedHeaders to tokenize
+        We also set params. First include it as a type file and add the params: args parameter in basequery
+
+    GET
+        queryFN
+        uses 2 API calls to merge to a single res
+        uses Promise.allSettled so only resolved ones are considered
+        when Promis.allSettled is used type changes fro Promise.all will break, fixed that
+
+        added params with relevant params type
+
+        added tags by providedTags
+
+    UPDATE
+        id is passed as parameter, doesnt use params argument
+
+        invalidated tags
+    
+    DELETE
+
+         id is passed as parameter, doesnt use params arg
+
+        invalidated tags
+
+    Search
+        added search bar with debounce hook
+
+
 
 
