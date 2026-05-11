@@ -1,4 +1,4 @@
-import type { Task } from "@/mock";
+import type { Task } from "@/features/tasks/tasks.types";
 import { Button, Flex, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 

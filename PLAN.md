@@ -53,5 +53,6 @@ Task
     Uses rtkq,
     use transform response to shape the reposne type
     use preparedHeaders to tokenize
+    We also set params. First include it as a type file and add the params: args parameter in basequery
 
 

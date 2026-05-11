@@ -8,7 +8,7 @@ export type CreateTaskFormValues = {
   status: TaskStatus;
   priority: TaskPriority;
   dueDate: string;
-  tags?: string;
+  // tags?: string;
 };
 
 type FormComponentProps = {
