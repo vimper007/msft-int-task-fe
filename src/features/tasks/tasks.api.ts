@@ -1,5 +1,5 @@
 import type { RootState } from "@/app/store";
-import type { ApiResponse, TaskApiResponse, UserApiResponse } from "@/types/api.types";
+import type { ApiResponse, TaskApiRequest, TaskApiResponse, UserApiResponse } from "@/types/api.types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { GetTasksParams, Task } from "./tasks.types";
 export const taskapi = createApi({
@@ -76,10 +76,18 @@ export const taskapi = createApi({
       }),
       invalidatesTags: ["Tasks"],
     }),
+    createTasks: builder.mutation<ApiResponse<TaskApiResponse>, TaskApiRequest>({
+      query:(body)=>({
+        url:"/api/tasks",
+        method:"POST",
+        body,
+      }),
+      invalidatesTags:["Tasks"]
+    })
   }),
 });
 
-export const { useGetTasksQuery, useEditTasksMutation, useDeleteTasksMutation } = taskapi;
+export const { useGetTasksQuery, useEditTasksMutation, useDeleteTasksMutation, useCreateTasksMutation } = taskapi;
 
 // async queryFn(_arg, _api, _opts, baseQuery) {
 //   // Step 1 — first fetch

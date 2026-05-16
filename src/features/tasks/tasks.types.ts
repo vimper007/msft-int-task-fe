@@ -7,15 +7,9 @@ export type TaskPriority = "low" | "medium" | "high";
 export type TaskAssignee = AuthUser & { avatarUrl?: string };
 
 export type TaskSortBy =
-  | "id"
-  | "title"
-  | "description"
-  | "status"
-  | "priority"
   | "dueDate"
   | "createdAt"
-  | "updatedAt"
-  | "userId";
+
 
 export type TaskOrderBy = "desc" | "asc";
 

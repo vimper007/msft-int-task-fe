@@ -28,3 +28,11 @@ export type UserApiResponse = {
   email: string;
   createdAt: string;
 };
+
+export type TaskApiRequest = {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  dueDate: string;
+};

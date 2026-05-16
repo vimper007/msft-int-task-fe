@@ -4,13 +4,14 @@ import DeleteConfirmModal from "@/components/ui/delete-confirm-modal";
 import FormComponent from "@/components/ui/form-component";
 import ModalComponent from "@/components/ui/modal";
 import TaskTable from "@/components/ui/task-table";
-import { Button, Input } from "antd";
+import { Button, Flex, Input, Select, Switch } from "antd";
 import {
+  useCreateTasksMutation,
   useDeleteTasksMutation,
   useEditTasksMutation,
   useGetTasksQuery,
 } from "@/features/tasks/tasks.api";
-import type { Task } from "@/features/tasks/tasks.types";
+import type { Task, TaskSortBy, TaskStatus } from "@/features/tasks/tasks.types";
 import { useDebounce } from "@/hooks/useDebounce";
 
 const toDateTimeInputValue = (isoDate: string) => {
@@ -27,11 +28,16 @@ const Tasks = () => {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<Task | null>(null);
   const [search, setSearch] = useState("");
-  const debouncedSearchValue = useDebounce(search);
+  const [statusFilter, setStatusFilter] = useState<TaskStatus>()
+  const [sortFilter, setSortFilter] = useState<TaskSortBy>()
+  const [isAsc, setIsAsc] = useState<boolean>(true)
 
-  const { data: taskData } = useGetTasksQuery({ search: debouncedSearchValue });
+
+  const debouncedSearchValue = useDebounce(search);
+  const { data: taskData } = useGetTasksQuery({ search: debouncedSearchValue, status: statusFilter, sortBy: sortFilter, order: isAsc ? "asc": "desc" });
   const [editTasks] = useEditTasksMutation();
   const [deleteTasks] = useDeleteTasksMutation();
+  const [createTask] = useCreateTasksMutation()
 
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
@@ -44,7 +50,6 @@ const Tasks = () => {
   };
   const handleOnChamge = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    console.log(value);
     setSearch(value);
   };
   const buildTaskPayload = (values: CreateTaskFormValues, now: string) => {
@@ -62,11 +67,11 @@ const Tasks = () => {
     };
   };
 
-  const handleCreateTask = (values: CreateTaskFormValues) => {
+  const handleCreateTask = async (values: CreateTaskFormValues) => {
     const now = new Date().toISOString();
     const payload = buildTaskPayload(values, now);
     payload;
-
+    await createTask(payload)
     closeCreateModal();
   };
 
@@ -84,10 +89,10 @@ const Tasks = () => {
       prev?.map((task) =>
         task.id === editingTask.id
           ? {
-              ...task,
-              ...payload,
-              updatedAt: now,
-            }
+            ...task,
+            ...payload,
+            updatedAt: now,
+          }
           : task,
       ),
     );
@@ -119,9 +124,40 @@ const Tasks = () => {
         size="large"
         onSearch={handleOnSearch}
         onChange={handleOnChamge}
-        // value={search}
+      // value={search}
       />
+      <Flex justify="space-between">
+        <Flex gap={10}>
+          <span>Filter by Status</span>
+          <Select
+            style={{ width: 300 }}
+            options={[{ value: 'done', label: 'Done' },
+            { value: 'in_progress', label: 'In Progress' },
+            { value: 'todo', label: 'Todo' }]}
+            placeholder="select it"
+            allowClear
+            showSearch
+            onChange={(value: TaskStatus) => setStatusFilter(value)}
+          />
+        </Flex>
+        <Flex gap={10}>
+          <label htmlFor="sort">Sort By</label>
+          <Select
+            style={{ width: 120 }}
+            allowClear
+            options={[{ value: 'createdAt', label: 'Created At' }, { value: 'dueDate', label: 'Due Date' }]}
+            placeholder="select it"
+            id="sort"
+            onChange={(value: TaskSortBy) => setSortFilter(value)}
+          />
+          <label htmlFor="toggle">Order By</label>
+          <Switch checkedChildren="Ascending" unCheckedChildren="Descending" id="toggle" onChange={(value)=>setIsAsc(value)}/>
+        </Flex>
+      </Flex>
+      <div>
 
+
+      </div>
       <TaskTable
         tasks={taskData ?? []}
         onEditTask={handleEditTask}
@@ -136,13 +172,13 @@ const Tasks = () => {
           initialValues={
             editingTask
               ? {
-                  title: editingTask.title,
-                  description: editingTask.description,
-                  status: editingTask.status,
-                  priority: editingTask.priority,
-                  dueDate: toDateTimeInputValue(editingTask.dueDate),
-                  // tags: editingTask.tags?.join(", "),
-                }
+                title: editingTask.title,
+                description: editingTask.description,
+                status: editingTask.status,
+                priority: editingTask.priority,
+                dueDate: toDateTimeInputValue(editingTask.dueDate),
+                // tags: editingTask.tags?.join(", "),
+              }
               : undefined
           }
           onSubmit={handleUpdateTask}
