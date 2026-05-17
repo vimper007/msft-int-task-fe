@@ -62,6 +62,8 @@ Task
         uses Promise.allSettled so only resolved ones are considered
         when Promis.allSettled is used type changes fro Promise.all will break, fixed that
 
+        added a bunch of filters
+
         added params with relevant params type
 
         added tags by providedTags
@@ -76,6 +78,9 @@ Task
          id is passed as parameter, doesnt use params arg
 
         invalidated tags
+
+    CREATE 
+        same way as above
 
     Search
         added search bar with debounce hook
