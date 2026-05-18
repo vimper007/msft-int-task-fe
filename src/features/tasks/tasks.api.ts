@@ -33,9 +33,6 @@ export const taskapi = createApi({
         const resolvedUserResults = userResults
           .filter((result) => result.status === "fulfilled")
           .map((result) => result.value.data as ApiResponse<UserApiResponse>);
-        console.log("resolvedUserResults", ...resolvedUserResults);
-
-        console.log("userResults...", userResults);
 
         const aggregatedTask: Task[] = taskResposne.data.map((task: TaskApiResponse) => ({
           id: task.id,
@@ -57,7 +54,6 @@ export const taskapi = createApi({
             };
           })(),
         }));
-        console.log("aggregatedTask", aggregatedTask);
         return { data: aggregatedTask };
       },
     }),

@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { CreateTaskFormValues } from "@/components/ui/form-component";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal";
 import FormComponent from "@/components/ui/form-component";
@@ -34,9 +34,16 @@ const Tasks = () => {
 
   const debouncedSearchValue = useDebounce(search);
   const { data: taskData } = useGetTasksQuery({ search: debouncedSearchValue, status: statusFilter, sortBy: sortFilter, order: isAsc ? "asc": "desc" });
-  const [editTasks] = useEditTasksMutation();
+  const [editTasks, {isLoading:isEditTasksLoading}] = useEditTasksMutation();
   const [deleteTasks] = useDeleteTasksMutation();
-  const [createTask] = useCreateTasksMutation()
+  const [createTask, {isLoading:isCreateTasksLoading}] = useCreateTasksMutation()
+
+    // useEffect(() => {
+    //   // console.log("isCreateTasksLoading",isCreateTasksLoading)
+    //   console.log("isEditTasksLoading", isEditTasksLoading)
+    
+      
+    // }, [isCreateTasksLoading, isEditTasksLoading])
 
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
@@ -148,7 +155,7 @@ const Tasks = () => {
         onDeleteTask={handleDeleteClick}
       />
       <ModalComponent visible={isCreateModalOpen} onClose={closeCreateModal}>
-        <FormComponent mode="create" onSubmit={handleCreateTask} onCancel={closeCreateModal} />
+        <FormComponent mode="create" onSubmit={handleCreateTask} onCancel={closeCreateModal} isLoading={isCreateTasksLoading}/>
       </ModalComponent>
       <ModalComponent visible={Boolean(editingTask)} onClose={closeEditModal}>
         <FormComponent
@@ -167,6 +174,7 @@ const Tasks = () => {
           }
           onSubmit={handleUpdateTask}
           onCancel={closeEditModal}
+          isLoading={isEditTasksLoading}
         />
       </ModalComponent>
       <DeleteConfirmModal

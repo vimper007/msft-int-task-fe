@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import type { TaskPriority, TaskStatus } from "@/mock";
 import { Button, Form, Input, Select, Space, Typography } from "antd";
+import { useCreateTasksMutation, useEditTasksMutation } from "@/features/tasks/tasks.api";
 
 export type CreateTaskFormValues = {
   title: string;
@@ -16,6 +17,7 @@ type FormComponentProps = {
   initialValues?: Partial<CreateTaskFormValues>;
   onSubmit: (values: CreateTaskFormValues) => void;
   onCancel: () => void;
+  isLoading?: boolean
 };
 
 const defaultValues: Pick<CreateTaskFormValues, "status" | "priority"> = {
@@ -28,15 +30,25 @@ const FormComponent = ({
   initialValues,
   onSubmit,
   onCancel,
+  isLoading
 }: FormComponentProps) => {
   const [form] = Form.useForm<CreateTaskFormValues>();
-
+  const [, { isLoading: isCreateTasksLoading }] = useCreateTasksMutation()
+  const [, { isLoading: isEditTasksLoading }] = useEditTasksMutation();
   useEffect(() => {
     form.setFieldsValue({
       ...defaultValues,
       ...initialValues,
     });
   }, [form, initialValues]);
+
+  useEffect(() => {
+    console.log("isCreateTasksLoading",isCreateTasksLoading)
+    console.log(isEditTasksLoading, isEditTasksLoading)
+  
+    
+  }, [isCreateTasksLoading, isEditTasksLoading])
+  
 
   const handleFinish = (values: CreateTaskFormValues) => {
     onSubmit(values);
@@ -45,7 +57,6 @@ const FormComponent = ({
 
   const title = mode === "edit" ? "Edit Task" : "Create Task";
   const submitLabel = mode === "edit" ? "Save Changes" : "Add Task";
-
   return (
     <Form<CreateTaskFormValues>
       form={form}
@@ -117,7 +128,7 @@ const FormComponent = ({
 
       <Space>
         <Button onClick={onCancel}>Cancel</Button>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" disabled={isLoading}>
           {submitLabel}
         </Button>
       </Space>

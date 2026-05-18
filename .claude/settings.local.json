@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "mcp__vexp__run_pipeline",
-      "mcp__vexp__get_skeleton"
+      "mcp__vexp__get_skeleton",
+      "WebSearch"
     ]
   }
 }

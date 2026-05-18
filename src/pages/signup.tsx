@@ -6,12 +6,17 @@ import { setUser } from "@/features/auth/authSlice";
 import { AxiosError } from "axios";
 import { authStorage } from "@/helper/auth-storage";
 import { useNavigate } from "react-router";
+import { message } from "antd";
+import { useState } from "react";
 
 const SignUp = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isLoading, setIsLoading] = useState<boolean>()
 
   const handleSignup = async (values: SignupFormValues) => {
+    setIsLoading(true)
     try {
       const res = await signup({
         name: values.name,
@@ -34,21 +39,33 @@ const SignUp = () => {
       authStorage.set(payload);
       navigate("/task");
     } catch (error) {
-      if (error instanceof AxiosError) console.error(error.message);
-      else console.error("Try again later");
+      if (error instanceof AxiosError) {
+        messageApi.error(error.message)
+        console.error(error.message);
+      }
+      else {
+        messageApi.error("ry again later")
+        console.error("Try again later")
+      };
+    } finally {
+      setIsLoading(false)
     }
   };
 
   return (
-    <AuthForm
-      mode="signup"
-      title="Create Your Account"
-      subtitle="Set up your workspace access and start organizing tasks with your team."
-      submitLabel="Sign Up"
-      footerLinkLabel="Already have an account? Log in"
-      footerLinkTo="/login"
-      onSubmit={handleSignup}
-    />
+    <>
+      {contextHolder}
+      <AuthForm
+        mode="signup"
+        title="Create Your Account"
+        subtitle="Set up your workspace access and start organizing tasks with your team."
+        submitLabel="Sign Up"
+        footerLinkLabel="Already have an account? Log in"
+        footerLinkTo="/login"
+        onSubmit={handleSignup}
+        isLoading={isLoading}
+      />
+    </>
   );
 };
 

@@ -22,6 +22,7 @@ type BaseAuthFormProps = {
   submitLabel: string;
   footerLinkLabel: string;
   footerLinkTo: string;
+  isLoading?: boolean
 };
 
 type AuthFormProps =
@@ -146,7 +147,7 @@ const AuthForm = (props: AuthFormProps) => {
           ) : null}
 
           <Form.Item style={{ marginBottom: 12 }}>
-            <Button block type="primary" htmlType="submit" size="large" className="mt-2">
+            <Button block type="primary" htmlType="submit" size="large" className="mt-2" disabled={props?.isLoading}>
               {submitLabel}
             </Button>
           </Form.Item>
