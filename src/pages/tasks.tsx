@@ -23,7 +23,6 @@ const toDateTimeInputValue = (isoDate: string) => {
 };
 
 const Tasks = () => {
-  const [, setTasks] = useState<Task[]>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<Task | null>(null);
@@ -48,7 +47,7 @@ const Tasks = () => {
   const handleOnSearch = (value: string) => {
     setSearch(value);
   };
-  const handleOnChamge = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearch(value);
   };
@@ -70,7 +69,6 @@ const Tasks = () => {
   const handleCreateTask = async (values: CreateTaskFormValues) => {
     const now = new Date().toISOString();
     const payload = buildTaskPayload(values, now);
-    payload;
     await createTask(payload)
     closeCreateModal();
   };
@@ -84,18 +82,6 @@ const Tasks = () => {
 
     const now = new Date().toISOString();
     const payload = buildTaskPayload(values, now);
-
-    setTasks((prev) =>
-      prev?.map((task) =>
-        task.id === editingTask.id
-          ? {
-            ...task,
-            ...payload,
-            updatedAt: now,
-          }
-          : task,
-      ),
-    );
     await editTasks({ body: payload, id: editingTask.id });
     closeEditModal();
   };
@@ -106,8 +92,6 @@ const Tasks = () => {
 
   const handleConfirmDelete = async () => {
     if (!deleteCandidate) return;
-
-    setTasks((prev) => prev?.filter((task) => task.id !== deleteCandidate.id));
     await deleteTasks(deleteCandidate.id);
     closeDeleteModal();
   };
@@ -123,7 +107,7 @@ const Tasks = () => {
         enterButton="Search"
         size="large"
         onSearch={handleOnSearch}
-        onChange={handleOnChamge}
+        onChange={handleOnChange}
       // value={search}
       />
       <Flex justify="space-between">
